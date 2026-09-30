@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Leonardo Mazula — Cuidador Profissional</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.0/index.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --bg-2:#0f1424;
+    --primary:#4fd1c5;
+    --primary-2:#38b2ac;
+    --accent:#f6c177;
+    --accent-2:#f59e0b;
+    --text:#e6edf3;
+    --text-dim:#8b949e;
+    --glass:rgba(255,255,255,0.04);
+    --glass-border:rgba(255,255,255,0.08);
+    --gradient:linear-gradient(135deg,#4fd1c5 0%,#38b2ac 50%,#f6c177 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    cursor:none;
+  }
+  /* Custom Cursor */
+  .cursor{
+    position:fixed;width:8px;height:8px;border-radius:50%;
+    background:var(--primary);pointer-events:none;z-index:9999;
+    transition:transform .15s ease;mix-blend-mode:screen;
+  }
+  .cursor-outline{
+    position:fixed;width:40px;height:40px;border:1.5px solid var(--primary);
+    border-radius:50%;pointer-events:none;z-index:9998;
+    transition:transform .3s ease, width .3s, height .3s, border-color .3s;
+    transform:translate(-50%,-50%);
+  }
+  .cursor-outline.hover{width:70px;height:70px;border-color:var(--accent);background:rgba(246,193,119,.08)}
+  @media(max-width:768px){body{cursor:auto}.cursor,.cursor-outline{display:none}}
+
+  /* Background canvas */
+  #bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+  /* Navbar */
+  nav{
+    position:fixed;top:0;left:0;width:100%;padding:1.2rem 5%;
+    display:flex;justify-content:space-between;align-items:center;
+    z-index:100;backdrop-filter:blur(12px);
+    background:rgba(10,14,26,.6);border-bottom:1px solid var(--glass-border);
+    transition:all .4s ease;
+  }
+  .logo{
+    font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;
+    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;
+    letter-spacing:1px;
+  }
+  .nav-links{display:flex;gap:2.2rem;list-style:none}
+  .nav-links a{
+    color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;
+    position:relative;transition:color .3s;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-6px;left:0;width:0;height:2px;
+    background:var(--gradient);transition:width .3s;
+  }
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    padding:.6rem 1.3rem;border-radius:50px;background:var(--gradient);
+    color:#0a0e1a;font-weight:600;text-decoration:none;font-size:.85rem;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(79,209,197,.35)}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .burger span{width:25px;height:2px;background:var(--text);transition:.3s}
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .burger{display:flex}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;position:relative;display:flex;align-items:center;
+    padding:0 5%;z-index:2;overflow:hidden;
+  }
+  .hero-content{max-width:1400px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:center}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:.6rem;padding:.5rem 1rem;
+    border:1px solid var(--glass-border);border-radius:50px;
+    background:var(--glass);backdrop-filter:blur(10px);
+    font-size:.8rem;color:var(--primary);margin-bottom:1.5rem;
+  }
+  .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--primary);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(79,209,197,.7)}50%{box-shadow:0 0 0 12px rgba(79,209,197,0)}}
+  .hero h1{
+    font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);
+    line-height:1.05;font-weight:700;margin-bottom:1.5rem;
+  }
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line span{display:inline-block;transform:translateY(110%)}
+  .hero h1 .gradient{
+    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;
+    font-style:italic;
+  }
+  .hero p.desc{
+    font-size:1.1rem;color:var(--text-dim);line-height:1.7;
+    max-width:520px;margin-bottom:2rem;
+  }
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+  .btn{
+    padding:1rem 2rem;border-radius:50px;text-decoration:none;font-weight:600;
+    font-size:.95rem;transition:all .3s ease;display:inline-flex;align-items:center;gap:.6rem;
+    position:relative;overflow:hidden;
+  }
+  .btn-primary{background:var(--gradient);color:#0a0e1a}
+  .btn-primary::before{
+    content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+    transition:left .6s;
+  }
+  .btn-primary:hover::before{left:100%}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(79,209,197,.4)}
+  .btn-outline{border:1px solid var(--glass-border);color:var(--text);background:var(--glass);backdrop-filter:blur(10px)}
+  .btn-outline:hover{border-color:var(--primary);background:rgba(79,209,197,.08)}
+
+  .hero-stats{display:flex;gap:2.5rem}
+  .stat .num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .label{font-size:.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px}
+
+  /* Hero visual */
+  .hero-visual{position:relative;height:600px;display:flex;justify-content:center;align-items:center}
+  .hero-blob{
+    position:absolute;width:420px;height:420px;border-radius:50%;
+    background:var(--gradient);filter:blur(80px);opacity:.4;
+    animation:blobMove 12s ease-in-out infinite;
+  }
+  @keyframes blobMove{
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(30px,-40px) scale(1.1)}
+    66%{transform:translate(-30px,30px) scale(.9)}
+  }
+  .hero-card{
+    position:relative;width:380px;height:480px;border-radius:30px;
+    background:var(--glass);backdrop-filter:blur(20px);
+    border:1px solid var(--glass-border);
+    padding:2rem;display:flex;flex-direction:column;justify-content:space-between;
+    overflow:hidden;transform-style:preserve-3d;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+  }
+  .hero-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%,rgba(79,209,197,.15),transparent 50%);
+  }
+  .card-avatar{
+    width:100%;height:200px;border-radius:20px;
+    background:linear-gradient(135deg,#1a2332,#0f1424);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .card-avatar svg{width:120px;height:120px;opacity:.9}
+  .card-info h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.3rem}
+  .card-info .role{color:var(--primary);font-size:.85rem;margin-bottom:1rem}
+  .card-info .quote{font-size:.85rem;color:var(--text-dim);line-height:1.5;font-style:italic;border-left:2px solid var(--accent);padding-left:.8rem}
+  .floating-tag{
+    position:absolute;padding:.6rem 1rem;border-radius:50px;
+    background:var(--glass);backdrop-filter:blur(15px);
+    border:1px solid var(--glass-border);font-size:.8rem;
+    display:flex;align-items:center;gap:.5rem;
+    animation:float 4s ease-in-out infinite;
+  }
+  .floating-tag .icon{width:28px;height:28px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.9rem}
+  .tag-1{top:10%;left:-10%;animation-delay:0s}
+  .tag-2{top:45%;right:-15%;animation-delay:1s}
+  .tag-3{bottom:15%;left:-5%;animation-delay:2s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+
+  @media(max-width:900px){
+    .hero-content{grid-template-columns:1fr;gap:3rem}
+    .hero-visual{height:500px}
+    .hero-card{width:320px;height:420px}
+    .hero-stats{gap:1.5rem}
+    .stat .num{font-size:2rem}
+  }
+
+  /* Sections */
+  section{position:relative;z-index:2;padding:8rem 5%}
+  .section-head{text-align:center;margin-bottom:4rem}
+  .section-tag{
+    display:inline-block;padding:.4rem 1rem;border-radius:50px;
+    background:rgba(79,209,197,.1);color:var(--primary);
+    font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;
+  }
+  .section-head h2{
+    font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);
+    line-height:1.1;margin-bottom:1rem;
+  }
+  .section-head h2 .gradient{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic}
+  .section-head p{color:var(--text-dim);max-width:600px;margin:0 auto;line-height:1.7}
+
+  /* Sobre */
+  .sobre{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1300px;margin:0 auto;align-items:center}
+  .sobre-visual{position:relative;height:500px}
+  .sobre-img{
+    position:absolute;border-radius:25px;overflow:hidden;
+    border:1px solid var(--glass-border);
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+  }
+  .sobre-img-1{width:70%;height:70%;top:0;left:0;background:linear-gradient(135deg,#1a2332,#0f1424);display:flex;align-items:center;justify-content:center}
+  .sobre-img-2{width:55%;height:45%;bottom:0;right:0;background:linear-gradient(135deg,#2a3345,#1a2332);display:flex;align-items:center;justify-content:center;border:1px solid var(--primary)}
+  .sobre-img svg{width:60%;height:60%;opacity:.7}
+  .sobre-text h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:1.5rem;line-height:1.1}
+  .sobre-text h2 .gradient{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic}
+  .sobre-text p{color:var(--text-dim);line-height:1.8;margin-bottom:1.5rem}
+  .sobre-list{list-style:none;margin-top:2rem}
+  .sobre-list li{
+    display:flex;align-items:center;gap:1rem;padding:1rem 0;
+    border-bottom:1px solid var(--glass-border);
+  }
+  .sobre-list .check{
+    width:32px;height:32px;border-radius:50%;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    color:#0a0e1a;font-weight:700;
+  }
+  @media(max-width:900px){.sobre{grid-template-columns:1fr;gap:3rem}.sobre-visual{height:400px}}
+
+  /* Serviços */
+  .servicos-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:1.5rem;max-width:1300px;margin:0 auto;
+  }
+  .servico-card{
+    padding:2.5rem 2rem;border-radius:25px;
+    background:var(--glass);backdrop-filter:blur(10px);
+    border:1px solid var(--glass-border);
+    position:relative;overflow:hidden;
+    transition:transform .4s ease, border-color .4s ease;
+    cursor:none;
+  }
+  .servico-card::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(79,209,197,.15),transparent 40%);
+    opacity:0;transition:opacity .4s;
+  }
+  .servico-card:hover::before{opacity:1}
+  .servico-card:hover{transform:translateY(-8px);border-color:rgba(79,209,197,.3)}
+  .servico-icon{
+    width:60px;height:60px;border-radius:18px;
+    background:var(--gradient);display:flex;align-items:center;justify-content:center;
+    margin-bottom:1.5rem;font-size:1.8rem;color:#0a0e1a;
+    box-shadow:0 10px 30px rgba(79,209,197,.3);
+  }
+  .servico-card h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.8rem}
+  .servico-card p{color:var(--text-dim);line-height:1.6;font-size:.95rem}
+  .servico-card .num{
+    position:absolute;top:1.5rem;right:1.5rem;
+    font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;
+    color:rgba(255,255,255,.05);line-height:1;
+  }
+
+  /* Diferenciais */
+  .diferenciais{
+    max-width:1300px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  }
+  .diferencial-list{display:flex;flex-direction:column;gap:1rem}
+  .diferencial-item{
+    padding:1.5rem 2rem;border-radius:20px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    display:flex;gap:1.5rem;align-items:center;
+    transition:all .4s ease;cursor:none;
+  }
+  .diferencial-item:hover{background:rgba(79,209,197,.05);border-color:rgba(79,209,197,.3);transform:translateX(10px)}
+  .diferencial-item .icon{
+    width:50px;height:50px;border-radius:15px;
+    background:linear-gradient(135deg,rgba(79,209,197,.2),rgba(246,193,119,.2));
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-size:1.5rem;
+  }
+  .diferencial-item h4{font-size:1.1rem;margin-bottom:.3rem}
+  .diferencial-item p{color:var(--text-dim);font-size:.88rem;line-height:1.5}
+
+  .destaque-card{
+    padding:3rem;border-radius:30px;
+    background:linear-gradient(135deg,rgba(79,209,197,.1),rgba(246,193,119,.05));
+    border:1px solid rgba(79,209,197,.2);
+    position:relative;overflow:hidden;
+  }
+  .destaque-card::before{
+    content:'"';position:absolute;top:-40px;left:20px;
+    font-family:'Playfair Display',serif;font-size:15rem;
+    color:rgba(79,209,197,.1);line-height:1;
+  }
+  .destaque-card .quote-text{
+    font-family:'Playfair Display',serif;font-size:1.8rem;
+    line-height:1.4;font-style:italic;position:relative;z-index:1;
+    margin-bottom:1.5rem;
+  }
+  .destaque-card .quote-text .highlight{
+    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .destaque-card .author{display:flex;align-items:center;gap:1rem}
+  .destaque-card .author-avatar{
+    width:50px;height:50px;border-radius:50%;background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;
+    color:#0a0e1a;font-weight:700;font-size:1.2rem;
+  }
+  .destaque-card .author-info .name{font-weight:600}
+  .destaque-card .author-info .role{font-size:.85rem;color:var(--text-dim)}
+
+  @media(max-width:900px){.diferenciais{grid-template-columns:1fr;gap:3rem}}
+
+  /* Contato */
+  .contato{
+    max-width:1100px;margin:0 auto;
+    background:linear-gradient(135deg,rgba(79,209,197,.08),rgba(246,193,119,.05));
+    border:1px solid var(--glass-border);border-radius:40px;
+    padding:4rem;text-align:center;position:relative;overflow:hidden;
+  }
+  .contato::before{
+    content:'';position:absolute;width:400px;height:400px;border-radius:50%;
+    background:var(--gradient);filter:blur(120px);opacity:.15;
+    top:-100px;right:-100px;
+  }
+  .contato h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem;position:relative}
+  .contato p{color:var(--text-dim);margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;position:relative}
+  .contato-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+  .contato-info{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.5rem;margin-top:3rem;position:relative;
+  }
+  .contato-item{
+    padding:1.5rem;border-radius:20px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);
+  }
+  .contato-item .icon{font-size:1.5rem;color:var(--primary);margin-bottom:.5rem}
+  .contato-item .label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.3rem}
+  .contato-item .value{font-weight:500;font-size:.95rem;word-break:break-word}
+  .contato-item a{color:var(--text);text-decoration:none;transition:color .3s}
+  .contato-item a:hover{color:var(--primary)}
+
+  /* Footer */
+  footer{
+    padding:3rem 5% 2rem;border-top:1px solid var(--glass-border);
+    text-align:center;position:relative;z-index:2;
+  }
+  footer .logo{margin-bottom:1rem}
+  footer p{color:var(--text-dim);font-size:.85rem}
+  .social-links{display:flex;gap:1rem;justify-content:center;margin:1.5rem 0}
+  .social-links a{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--glass);border:1px solid var(--glass-border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text);text-decoration:none;transition:all .3s;
+  }
+  .social-links a:hover{background:var(--gradient);color:#0a0e1a;transform:translateY(-3px)}
+
+  /* WhatsApp Float */
+  .whatsapp-float{
+    position:fixed;bottom:30px;right:30px;width:60px;height:60px;
+    border-radius:50%;background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    color:white;text-decoration:none;z-index:99;
+    box-shadow:0 10px 30px rgba(37,211,102,.4);
+    animation:whatsappPulse 2s infinite;
+    transition:transform .3s;
+  }
+  .whatsapp-float:hover{transform:scale(1.1)}
+  @keyframes whatsappPulse{
+    0%,100%{box-shadow:0 10px 30px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,.7)}
+    50%{box-shadow:0 10px 30px rgba(37,211,102,.4),0 0 0 20px rgba(37,211,102,0)}
+  }
+
+  /* Reveal animations */
+  .reveal{opacity:0;transform:translateY(40px);transition:all 1s cubic-bezier(.2,.8,.2,1)}
+  .reveal.active{opacity:1;transform:translateY(0)}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--gradient);border-radius:10px}
+
+  /* Marquee */
+  .marquee{
+    overflow:hidden;padding:2rem 0;border-top:1px solid var(--glass-border);
+    border-bottom:1px solid var(--glass-border);margin:4rem 0;
+    position:relative;z-index:2;
+  }
+  .marquee-track{display:flex;gap:4rem;animation:scroll 30s linear infinite;white-space:nowrap}
+  .marquee-item{
+    font-family:'Playfair Display',serif;font-size:2.5rem;font-style:italic;
+    color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);
+    display:flex;align-items:center;gap:4rem;
+  }
+  .marquee-item .dot{width:12px;height:12px;border-radius:50%;background:var(--primary);-webkit-text-stroke:0}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-outline"></div>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <div class="logo">LM · Cuidador</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/552199549999" class="nav-cta" target="_blank">Fale Comigo</a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Disponível para novos atendimentos
+      </div>
+      <h1>
+        <div class="line"><span>Cuidar é</span></div>
+        <div class="line"><span class="gradient">estar presente</span></div>
+        <div class="line"><span>com amor.</span></div>
+      </h1>
+      <p class="desc">
+        Leonardo Mazula — Cuidador profissional especializado em cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos.
+      </p>
+      <div class="hero-cta">
+        <a href="https://wa.me/552199549999" class="btn btn-primary" target="_blank">
+          Agendar Atendimento
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#sobre" class="btn btn-outline">Conhecer Mais</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="num" data-count="100">0</div>
+          <div class="label">% Dedicação</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-count="24">0</div>
+          <div class="label">Horas Disponível</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-count="5">0</div>
+          <div class="label">Estrelas ★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-blob"></div>
+      <div class="hero-card" id="heroCard">
+        <div class="card-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="1.2">
+            <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4fd1c5"/><stop offset="100%" stop-color="#f6c177"/></linearGradient></defs>
+            <path d="M12 2a4 4 0 014 4v2a4 4 0 01-8 0V6a4 4 0 014-4z"/>
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <path d="M12 11v4M10 13h4" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="card-info">
+          <h3>Leonardo Mazula</h3>
+          <div class="role">Cuidador Profissional</div>
+          <div class="quote">"Mais que cuidar, é estar presente com amor, carinho, empatia e respeito ao próximo."</div>
+        </div>
+      </div>
+      <div class="floating-tag tag-1">
+        <div class="icon">❤</div>
+        <span>Humanizado</span>
+      </div>
+      <div class="floating-tag tag-2">
+        <div class="icon">✦</div>
+        <span>Profissional</span>
+      </div>
+      <div class="floating-tag tag-3">
+        <div class="icon">◉</div>
+        <span>24h Disponível</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item">Cuidado Humanizado <span class="dot"></span></div>
+    <div class="marquee-item">Empatia & Respeito <span class="dot"></span></div>
+    <div class="marquee-item">Amor ao Próximo <span class="dot"></span></div>
+    <div class="marquee-item">Profissionalismo <span class="dot"></span></div>
+    <div class="marquee-item">Cuidado Humanizado <span class="dot"></span></div>
+    <div class="marquee-item">Empatia & Respeito <span class="dot"></span></div>
+    <div class="marquee-item">Amor ao Próximo <span class="dot"></span></div>
+    <div class="marquee-item">Profissionalismo <span class="dot"></span></div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre">
+    <div class="sobre-visual reveal">
+      <div class="sobre-img sobre-img-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#grad2)" stroke-width="1">
+          <defs><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4fd1c5"/><stop offset="100%" stop-color="#f6c177"/></linearGradient></defs>
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      <div class="sobre-img sobre-img-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#4fd1c5" stroke-width="1.2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sobre-text reveal">
+      <span class="section-tag">Sobre Mim</span>
+      <h2>Experiência que <span class="gradient">transforma</span> vidas</h2>
+      <p>Sou Leonardo Mazula, cuidador profissional com experiências múltiplas em diferentes contextos de cuidado. Minha missão vai além do técnico: é oferecer presença, dignidade e acolhimento a cada pessoa que confio aos meus cuidados.</p>
+      <p>Atendo com dedicação pessoas com Parkinson, Alzheimer, cadeirantes, acamados, idosos e outras condições que exigem cuidado especializado e humanizado.</p>
+      <ul class="sobre-list">
+        <li><div class="check">✓</div><div><strong>Mal de Parkinson & Alzheimer</strong><br><span style="color:var(--text-dim);font-size:.9rem">Cuidado especializado com paciência e técnica</span></div></li>
+        <li><div class="check">✓</div><div><strong>Cadeirantes & Acamados</strong><br><span style="color:var(--text-dim);font-size:.9rem">Mobilidade, conforto e prevenção de escaras</span></div></li>
+        <li><div class="check">✓</div><div><strong>Idosos em Geral</strong><br><span style="color:var(--text-dim);font-size:.9rem">Companhia, autonomia e bem-estar diário</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="section-head reveal">
+    <span class="section-tag">Serviços</span>
+    <h2>Cuidados <span class="gradient">completos</span> e personalizados</h2>
+    <p>Um conjunto de serviços pensados para oferecer segurança, conforto e qualidade de vida em cada momento.</p>
+  </div>
+  <div class="servicos-grid">
+    <div class="servico-card reveal">
+      <div class="num">01</div>
+      <div class="servico-icon">✚</div>
+      <h3>Primeiros Socorros</h3>
+      <p>Preparo para agir com rapidez e segurança em situações de emergência, garantindo tranquilidade para a família.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">02</div>
+      <div class="servico-icon">💊</div>
+      <h3>Administração de Remédios</h3>
+      <p>Controle rigoroso de horários, doses e prescrições médicas, com atenção aos detalhes e acompanhamento contínuo.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">03</div>
+      <div class="servico-icon">✦</div>
+      <h3>Higiene & Conforto</h3>
+      <p>Cuidados diários de higiene pessoal realizados com respeito, delicadeza e total preservação da dignidade.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">04</div>
+      <div class="servico-icon">♡</div>
+      <h3>Bem-Estar Emocional</h3>
+      <p>Companhia, escuta ativa e atividades que estimulam a mente e o espírito, promovendo alegria e conexão.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">05</div>
+      <div class="servico-icon">◉</div>
+      <h3>Mobilidade & Fisioterapia</h3>
+      <p>Apoio em movimentos, transfers e exercícios orientados, mantendo a autonomia dentro das possibilidades.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">06</div>
+      <div class="servico-icon">☾</div>
+      <h3>Cuidado Noturno</h3>
+      <p>Atendimento 24h com vigilância atenta durante a noite, garantindo sono tranquilo e segurança constante.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="section-head reveal">
+    <span class="section-tag">Diferenciais</span>
+    <h2>Muito além do <span class="gradient">cuidado técnico</span></h2>
+  </div>
+  <div class="diferenciais">
+    <div class="diferencial-list">
+      <div class="diferencial-item reveal">
+        <div class="icon">❤</div>
+        <div><h4>Atendimento Humanizado</h4><p>Cada pessoa é única. O cuidado é adaptado à história, rotina e preferências de cada um.</p></div>
+      </div>
+      <div class="diferencial-item reveal">
+        <div class="icon">✦</div>
+        <div><h4>Empatia Genuína</h4><p>Ouvir, compreender e acolher. A base de todo cuidado que realmente transforma.</p></div>
+      </div>
+      <div class="diferencial-item reveal">
+        <div class="icon">◉</div>
+        <div><h4>Respeito & Dignidade</h4><p>Preservar a autonomia e a identidade de quem está sob meus cuidados é prioridade absoluta.</p></div>
+      </div>
+      <div class="diferencial-item reveal">
+        <div class="icon">★</div>
+        <div><h4>Presença Constante</h4><p>Mais que cuidar, estar presente. Com amor, carinho e dedicação em cada momento.</p></div>
+      </div>
+    </div>
+    <div class="destaque-card reveal">
+      <div class="quote-text">
+        Mais que cuidar, é <span class="highlight">estar presente</span> com amor, carinho, <span class="highlight">empatia</span> e respeito ao próximo.
+      </div>
+      <div class="author">
+        <div class="author-avatar">LM</div>
+        <div class="author-info">
+          <div class="name">Leonardo Mazula</div>
+          <div class="role">Cuidador Profissional</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato reveal">
+    <span class="section-tag">Contato</span>
+    <h2>Vamos conversar sobre o <span style="background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic">cuidado ideal</span></h2>
+    <p>Entre em contato para conhecer mais sobre meu trabalho e agendar uma conversa sem compromisso.</p>
+    <div class="contato-actions">
+      <a href="https://wa.me/552199549999" class="btn btn-primary" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chamar no WhatsApp
+      </a>
+      <a href="mailto:mazulaitacoa7@gmail.com" class="btn btn-outline">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Enviar E-mail
+      </a>
+    </div>
+    <div class="contato-info">
+      <div class="contato-item">
+        <div class="icon">✆</div>
+        <div class="label">WhatsApp</div>
+        <div class="value"><a href="https://wa.me/552199549999" target="_blank">(21) 9954-9999</a></div>
+      </div>
+      <div class="contato-item">
+        <div class="icon">✉</div>
+        <div class="label">E-mail</div>
+        <div class="value"><a href="mailto:mazulaitacoa7@gmail.com">mazulaitacoa7@gmail.com</a></div>
+      </div>
+      <div class="contato-item">
+        <div class="icon">◎</div>
+        <div class="label">Instagram</div>
+        <div class="value"><a href="https://www.instagram.com/lmazula/" target="_blank">@lmazula</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">LM · Cuidador</div>
+  <div class="social-links">
+    <a href="https://wa.me/552199549999" target="_blank" aria-label="WhatsApp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/lmazula/" target="_blank" aria-label="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="mailto:mazulaitacoa7@gmail.com" aria-label="Email">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+  <p>© 2026 Leonardo Mazula · Cuidador Profissional · Todos os direitos reservados</p>
+</footer>
+
+<a href="https://wa.me/552199549999" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Custom Cursor
+  const cursor = document.querySelector('.cursor');
+  const cursorOutline = document.querySelector('.cursor-outline');
+  let mx=0,my=0,ox=0,oy=0;
+  window.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  });
+  function animateCursor(){
+    ox+=(mx-ox)*.15;oy+=(my-oy)*.15;
+    cursorOutline.style.left=ox+'px';cursorOutline.style.top=oy+'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .servico-card, .diferencial-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cursorOutline.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>cursorOutline.classList.remove('hover'));
+  });
+
+  // Background particles canvas
+  const canvas=document.getElementById('bgCanvas');
+  const ctx=canvas.getContext('2d');
+  let particles=[];
+  function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+  resizeCanvas();window.addEventListener('resize',resizeCanvas);
+  class Particle{
+    constructor(){
+      this.x=Math.random()*canvas.width;
+      this.y=Math.random()*canvas.height;
+      this.size=Math.random()*2+.5;
+      this.speedX=(Math.random()-.5)*.3;
+      this.speedY=(Math.random()-.5)*.3;
+      this.color=Math.random()>.5?'rgba(79,209,197,':'rgba(246,193,119,';
+      this.opacity=Math.random()*.5+.1;
+    }
+    update(){
+      this.x+=this.speedX;this.y+=this.speedY;
+      if(this.x<0||this.x>canvas.width)this.speedX*=-1;
+      if(this.y<0||this.y>canvas.height)this.speedY*=-1;
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      ctx.fillStyle=this.color+this.opacity+')';
+      ctx.fill();
+    }
+  }
+  for(let i=0;i<80;i++)particles.push(new Particle());
+  function connectParticles(){
+    for(let a=0;a<particles.length;a++){
+      for(let b=a+1;b<particles.length;b++){
+        const dx=particles[a].x-particles[b].x;
+        const dy=particles[a].y-particles[b].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();
+          ctx.strokeStyle='rgba(79,209,197,'+(0.15*(1-dist/120))+')';
+          ctx.lineWidth=.5;
+          ctx.moveTo(particles[a].x,particles[a].y);
+          ctx.lineTo(particles[b].x,particles[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+  function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{p.update();p.draw()});
+    connectParticles();
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // Hero text reveal
+  gsap.to('.hero h1 .line span',{
+    y:0,duration:1.2,ease:'power4.out',stagger:.15,delay:.3
+  });
+  gsap.from('.hero-badge',{opacity:0,y:-20,duration:.8,delay:.1});
+  gsap.from('.hero p.desc',{opacity:0,y:20,duration:1,delay:1});
+  gsap.from('.hero-cta',{opacity:0,y:20,duration:1,delay:1.2});
+  gsap.from('.hero-stats .stat',{opacity:0,y:30,duration:.8,stagger:.15,delay:1.4});
+  gsap.from('.hero-card',{opacity:0,scale:.8,duration:1.2,delay:.6,ease:'power3.out'});
+  gsap.from('.floating-tag',{opacity:0,scale:0,duration:.8,stagger:.2,delay:1.2,ease:'back.out(1.7)'});
+
+  // 3D tilt card
+  const heroCard=document.getElementById('heroCard');
+  heroCard.addEventListener('mousemove',e=>{
+    const rect=heroCard.getBoundingClientRect();
+    const x=e.clientX-rect.left;const y=e.clientY-rect.top;
+    const rotX=((y-rect.height/2)/rect.height)*-15;
+    const rotY=((x-rect.width/2)/rect.width)*15;
+    heroCard.style.transform=`perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  });
+  heroCard.addEventListener('mouseleave',()=>{heroCard.style.transform='perspective(1000px) rotateX(0) rotateY(0)'});
+
+  // Service cards mouse effect
+  document.querySelectorAll('.servico-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const rect=card.getBoundingClientRect();
+      const x=((e.clientX-rect.left)/rect.width)*100;
+      const y=((e.clientY-rect.top)/rect.height)*100;
+      card.style.setProperty('--mx',x+'%');
+      card.style.setProperty('--my',y+'%');
+    });
+  });
+
+  // Scroll reveal
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('active')}
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // Counter animation
+  const counters=document.querySelectorAll('.stat .num');
+  const counterObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el=entry.target;
+        const target=+el.dataset.count;
+        let current=0;
+        const step=target/60;
+        const timer=setInterval(()=>{
+          current+=step;
+          if(current>=target){current=target;clearInterval(timer)}
+          el.textContent=Math.floor(current)+(target===100?'%':target===5?'+':'');
+        },25);
+        counterObserver.unobserve(el);
+      }
+    });
+  },{threshold:.5});
+  counters.forEach(c=>counterObserver.observe(c));
+
+  // Navbar scroll
+  window.addEventListener('scroll',()=>{
+    const nav=document.querySelector('nav');
+    if(window.scrollY>50){nav.style.padding='.8rem 5%';nav.style.background='rgba(10,14,26,.85)'}
+    else{nav.style.padding='1.2rem 5%';nav.style.background='rgba(10,14,26,.6)'}
+  });
+
+  // Parallax hero blob
+  window.addEventListener('scroll',()=>{
+    const scrolled=window.scrollY;
+    const blob=document.querySelector('.hero-blob');
+    if(blob)blob.style.transform=`translateY(${scrolled*.3}px)`;
+  });
+</script>
+</body>
+</html>
