@@ -3,37 +3,37 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Leonardo Mazula — Cuidador Profissional | Cuidados Humanizados</title>
+<title>Leonardo Freitas — Cuidador Profissional | Cuidados Humanizados</title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Leonardo Mazula, cuidador profissional especializado em cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos. Primeiros socorros, administração de remédios, higiene, conforto e bem-estar." />
-<meta name="keywords" content="cuidador profissional, cuidador de idosos, cuidados humanizados, Leonardo Mazula, cuidador Parkinson, cuidador Alzheimer, cuidador acamados, cuidador cadeirante, primeiros socorros, administração de remédios, cuidado humanizado, cuidador RJ, cuidador Rio de Janeiro" />
-<meta name="author" content="Leonardo Mazula" />
+<meta name="description" content="Leonardo Freitas, cuidador profissional especializado em cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos. Primeiros socorros, administração de remédios, higiene, conforto e bem-estar." />
+<meta name="keywords" content="cuidador profissional, cuidador de idosos, cuidados humanizados, Leonardo Freitas, cuidador Parkinson, cuidador Alzheimer, cuidador acamados, cuidador cadeirante, primeiros socorros, administração de remédios, cuidado humanizado, cuidador RJ, cuidador Rio de Janeiro" />
+<meta name="author" content="Leonardo Freitas" />
 <meta name="robots" content="index, follow" />
 <meta name="googlebot" content="index, follow" />
 <meta name="language" content="Portuguese" />
 <meta name="revisit-after" content="7 days" />
 <meta name="rating" content="general" />
-<link rel="canonical" href="https://lmazula.com.br/" />
+<link rel="canonical" href="https://super-lerin.github.io/mazula/" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
-<meta property="og:site_name" content="Leonardo Mazula - Cuidador Profissional" />
-<meta property="og:title" content="Leonardo Mazula — Cuidador Profissional | Cuidados Humanizados" />
+<meta property="og:site_name" content="Leonardo Freitas - Cuidador Profissional" />
+<meta property="og:title" content="Leonardo Freitas — Cuidador Profissional | Cuidados Humanizados" />
 <meta property="og:description" content="Mais que cuidar, é estar presente com amor, carinho, empatia e respeito ao próximo. Cuidados personalizados para Parkinson, Alzheimer, cadeirantes, acamados e idosos." />
 <meta property="og:url" content="https://lmazula.com.br/" />
-<meta property="og:image" content="https://lmazula.com.br/og-image.jpg" />
+<meta property="og:image" content="https://super-lerin.github.io/mazula/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Leonardo Mazula - Cuidador Profissional" />
+<meta property="og:image:alt" content="Leonardo Freitas - Cuidador Profissional" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Leonardo Mazula — Cuidador Profissional" />
+<meta name="twitter:title" content="Leonardo Freitas — Cuidador Profissional" />
 <meta name="twitter:description" content="Cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos. Mais que cuidar, é estar presente com amor e empatia." />
-<meta name="twitter:image" content="https://lmazula.com.br/og-image.jpg" />
-<meta name="twitter:image:alt" content="Leonardo Mazula - Cuidador Profissional" />
+<meta name="twitter:image" content="https://super-lerin.github.io/mazula/og-image.jpg" />
+<meta name="twitter:image:alt" content="Leonardo Freitas - Cuidador Profissional" />
 
 <!-- Theme & Mobile -->
 <meta name="theme-color" content="#0a0e1a" />
@@ -96,9 +96,28 @@
     transition:all .4s ease;
   }
   .logo{
-    font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;
-    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;
-    letter-spacing:1px;
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+  }
+  .logo img{
+    display:block;
+    width:auto;
+    height:58px;
+    max-width:240px;
+    object-fit:contain;
+  }
+  footer .logo{
+    justify-content:center;
+    margin-bottom:1rem;
+  }
+  footer .logo img{
+    height:90px;
+    max-width:320px;
+  }
+  @media(max-width:600px){
+    .logo img{height:48px;max-width:190px}
+    footer .logo img{height:75px;max-width:280px}
   }
   .nav-links{display:flex;gap:2.2rem;list-style:none}
   .nav-links a{
@@ -440,6 +459,75 @@
   }
   .marquee-item .dot{width:12px;height:12px;border-radius:50%;background:var(--primary);-webkit-text-stroke:0}
   @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .btn-insta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 10px 18px;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 25px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-insta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+/* Navbar & Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .logo img {
+    display: block;
+    width: 72px;            /* Aumentado para maior legibilidade */
+    height: 72px;           /* Proporção 1:1 circular */
+    border-radius: 50%;     /* Formato redondo estilo foto de perfil do Instagram */
+    object-fit: cover;      /* Mantém o enquadramento sem distorcer a imagem */
+    background: transparent;
+    border: 2px solid var(--primary); /* Borda opcional para destaque */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+  }
+
+  footer .logo {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  footer .logo img {
+    width: 110px;           /* Destaque ainda maior no rodapé */
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Adaptação para telas menores (smartphones) */
+  @media(max-width:600px){
+    .logo img {
+      width: 58px;
+      height: 58px;
+    }
+    footer .logo img {
+      width: 90px;
+      height: 90px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -449,7 +537,7 @@
 <canvas id="bgCanvas"></canvas>
 
 <nav>
-  <div class="logo">LM · Cuidador</div>
+  <a class="logo" href="#inicio" aria-label="Leonardo Freitas - Cuidador Profissional"><img src="logo.jpeg" alt="Leonardo Freitas - Cuidador Profissional"></a>
   <ul class="nav-links">
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#servicos">Serviços</a></li>
@@ -461,7 +549,7 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="inicio">
   <div class="hero-content">
     <div class="hero-text">
       <div class="hero-badge">
@@ -474,7 +562,7 @@
         <div class="line"><span>com amor.</span></div>
       </h1>
       <p class="desc">
-        Leonardo Mazula — Cuidador profissional especializado em cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos.
+        Leonardo Freitas — Cuidador profissional especializado em cuidados personalizados e humanizados. Experiência com Parkinson, Alzheimer, cadeirantes, acamados e idosos.
       </p>
       <div class="hero-cta">
         <a href="https://wa.me/552199549999" class="btn btn-primary" target="_blank">
@@ -511,7 +599,7 @@
           </svg>
         </div>
         <div class="card-info">
-          <h3>Leonardo Mazula</h3>
+          <h3>Leonardo Freitas</h3>
           <div class="role">Cuidador Profissional</div>
           <div class="quote">"Mais que cuidar, é estar presente com amor, carinho, empatia e respeito ao próximo."</div>
         </div>
@@ -566,7 +654,7 @@
     <div class="sobre-text reveal">
       <span class="section-tag">Sobre Mim</span>
       <h2>Experiência que <span class="gradient">transforma</span> vidas</h2>
-      <p>Sou Leonardo Mazula, cuidador profissional com experiências múltiplas em diferentes contextos de cuidado. Minha missão vai além do técnico: é oferecer presença, dignidade e acolhimento a cada pessoa que confio aos meus cuidados.</p>
+      <p>Sou Leonardo Freitas, cuidador profissional com experiências múltiplas em diferentes contextos de cuidado. Minha missão vai além do técnico: é oferecer presença, dignidade e acolhimento a cada pessoa que confio aos meus cuidados.</p>
       <p>Atendo com dedicação pessoas com Parkinson, Alzheimer, cadeirantes, acamados, idosos e outras condições que exigem cuidado especializado e humanizado.</p>
       <ul class="sobre-list">
         <li><div class="check">✓</div><div><strong>Mal de Parkinson & Alzheimer</strong><br><span style="color:var(--text-dim);font-size:.9rem">Cuidado especializado com paciência e técnica</span></div></li>
@@ -621,6 +709,18 @@
       <h3>Cuidado Noturno</h3>
       <p>Atendimento 24h com vigilância atenta durante a noite, garantindo sono tranquilo e segurança constante.</p>
     </div>
+    <div class="servico-card reveal">
+      <div class="num">08</div>
+      <div class="servico-icon">🚗</div>
+      <h3>Acompanhamento & Transporte</h3>
+      <p>Motorista habilitado para deslocamentos, consultas e disponibilidade total para viagens com conforto e segurança.</p>
+    </div>
+    <div class="servico-card reveal">
+      <div class="num">07</div>
+      <div class="servico-icon">🥗</div>
+      <h3>Alimentação Adequada</h3>
+      <p>Preparo de refeições balanceadas e personalizadas, respeitando as necessidades nutricionais, restrições e preferências diárias.</p>
+    </div>
   </div>
 </section>
 
@@ -656,7 +756,7 @@
       <div class="author">
         <div class="author-avatar">LM</div>
         <div class="author-info">
-          <div class="name">Leonardo Mazula</div>
+          <div class="name">Leonardo Freitas</div>
           <div class="role">Cuidador Profissional</div>
         </div>
       </div>
@@ -694,26 +794,26 @@
       <div class="contato-item">
         <div class="icon">◎</div>
         <div class="label">Instagram</div>
-        <div class="value"><a href="https://www.instagram.com/lmazula/" target="_blank">@lmazula</a></div>
+        <div class="value"><a href="https://www.instagram.com/leonardofreitasmzl/" target="_blank">@leonardofreitasmzl</a></div>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="logo">LM · Cuidador</div>
+  <div class="logo"><img src="logo.jpeg" alt="Leonardo Freitas - Cuidador Profissional"></div>
   <div class="social-links">
     <a href="https://wa.me/552199549999" target="_blank" aria-label="WhatsApp">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
-    <a href="https://www.instagram.com/lmazula/" target="_blank" aria-label="Instagram">
+    <a href=https://www.instagram.com/leonardofreitasmzl/" target="_blank" aria-label="Instagram">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
     </a>
     <a href="mailto:mazulaitacoa7@gmail.com" aria-label="Email">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </a>
   </div>
-  <p>© 2026 Leonardo Mazula · Cuidador Profissional · Todos os direitos reservados</p>
+  <p>© 2026 Leonardo Freitas · Cuidador Profissional · Todos os direitos reservados</p>
 </footer>
 
 <a href="https://wa.me/552199549999" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
